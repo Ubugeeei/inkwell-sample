@@ -1,8 +1,11 @@
 use std::error::Error;
 
-mod sum;
+mod add;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    println!("Result: {:?}", sum::exec(2, 5));
+    let argv: Vec<String> = std::env::args().collect();
+    if argv[1] == "add" {
+        println!("Result: {:?}", add::exec(2, 5));
+    }
     Ok(())
 }
