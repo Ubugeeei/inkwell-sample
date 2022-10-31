@@ -49,5 +49,7 @@ pub fn exec(x: u64, y: u64) -> Result<u64, Box<dyn Error>> {
         .jit_compile_sub()
         .ok_or("Unable to JIT compile `sub`")?;
 
+    let _ = std::fs::write("sub.ll", codegen.module.to_string());
+
     unsafe { Ok(sub.call(x, y)) }
 }

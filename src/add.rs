@@ -49,5 +49,7 @@ pub fn exec(x: u64, y: u64) -> Result<u64, Box<dyn Error>> {
         .jit_compile_add()
         .ok_or("Unable to JIT compile `add`")?;
 
+    let _ = std::fs::write("add.ll", codegen.module.to_string());
+
     unsafe { Ok(add.call(x, y)) }
 }

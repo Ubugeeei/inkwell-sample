@@ -67,6 +67,7 @@ pub fn exec(x: u64) -> Result<u64, Box<dyn Error>> {
     let context = Context::create();
     let module = context.create_module("add");
     let execution_engine = module.create_jit_execution_engine(OptimizationLevel::None)?;
+
     let codegen = CodeGen {
         context: &context,
         module,
@@ -77,6 +78,8 @@ pub fn exec(x: u64) -> Result<u64, Box<dyn Error>> {
     let add = codegen
         .jit_compile_is_even()
         .ok_or("Unable to JIT compile `add`")?;
+
+    let _ = std::fs::write("is_even.ll", codegen.module.to_string());
 
     unsafe { Ok(add.call(x)) }
 }
